@@ -271,6 +271,34 @@ function openDetailModal(id) {
       </h4>
       <p style="white-space: pre-line;">${escapeHtml(recipe.istruzioni)}</p>
     </div>
+    ${recipe.calorie > 0 || recipe.proteine > 0 || recipe.carboidrati > 0 || recipe.grassi > 0 ? `
+    <div class="recipe-detail-section">
+      <h4>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        </svg>
+        Valori Nutrizionali (per porzione)
+      </h4>
+      <div class="nutrition-grid">
+        <div class="nutrition-item">
+          <div class="nutrition-value">${recipe.calorie}</div>
+          <div class="nutrition-label">Calorie (kcal)</div>
+        </div>
+        <div class="nutrition-item">
+          <div class="nutrition-value">${recipe.proteine}g</div>
+          <div class="nutrition-label">Proteine</div>
+        </div>
+        <div class="nutrition-item">
+          <div class="nutrition-value">${recipe.carboidrati}g</div>
+          <div class="nutrition-label">Carboidrati</div>
+        </div>
+        <div class="nutrition-item">
+          <div class="nutrition-value">${recipe.grassi}g</div>
+          <div class="nutrition-label">Grassi</div>
+        </div>
+      </div>
+    </div>
+    ` : ''}
   `;
 
   document.getElementById('deleteBtn').dataset.id = id;
@@ -293,7 +321,11 @@ async function handleFormSubmit(e) {
     porzioni: parseInt(document.getElementById('porzioni').value) || 1,
     ingredienti: document.getElementById('ingredienti').value.trim(),
     istruzioni: document.getElementById('istruzioni').value.trim(),
-    immagine: document.getElementById('immagine').value.trim()
+    immagine: document.getElementById('immagine').value.trim(),
+    calorie: parseInt(document.getElementById('calorie').value) || 0,
+    proteine: parseFloat(document.getElementById('proteine').value) || 0,
+    carboidrati: parseFloat(document.getElementById('carboidrati').value) || 0,
+    grassi: parseFloat(document.getElementById('grassi').value) || 0
   };
 
   try {
@@ -362,6 +394,10 @@ function handleEdit() {
   document.getElementById('ingredienti').value = recipe.ingredienti;
   document.getElementById('istruzioni').value = recipe.istruzioni;
   document.getElementById('immagine').value = recipe.immagine || '';
+  document.getElementById('calorie').value = recipe.calorie || '';
+  document.getElementById('proteine').value = recipe.proteine || '';
+  document.getElementById('carboidrati').value = recipe.carboidrati || '';
+  document.getElementById('grassi').value = recipe.grassi || '';
 
   closeDetailModal();
   recipeModal.classList.add('active');

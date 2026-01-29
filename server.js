@@ -56,7 +56,7 @@ app.get('/api/recipes/:id', (req, res) => {
 // POST: Crea una nuova ricetta
 app.post('/api/recipes', (req, res) => {
   try {
-    const { titolo, ingredienti, istruzioni, tempo_preparazione, porzioni, categoria, immagine } = req.body;
+    const { titolo, ingredienti, istruzioni, tempo_preparazione, porzioni, categoria, immagine, calorie, proteine, carboidrati, grassi } = req.body;
 
     // Validazione
     if (!titolo || !ingredienti || !istruzioni) {
@@ -64,8 +64,8 @@ app.post('/api/recipes', (req, res) => {
     }
 
     const result = run(`
-      INSERT INTO recipes (titolo, ingredienti, istruzioni, tempo_preparazione, porzioni, categoria, immagine)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO recipes (titolo, ingredienti, istruzioni, tempo_preparazione, porzioni, categoria, immagine, calorie, proteine, carboidrati, grassi)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `, [
       titolo,
       ingredienti,
@@ -73,7 +73,11 @@ app.post('/api/recipes', (req, res) => {
       tempo_preparazione || 0,
       porzioni || 1,
       categoria || 'Altro',
-      immagine || ''
+      immagine || '',
+      calorie || 0,
+      proteine || 0,
+      carboidrati || 0,
+      grassi || 0
     ]);
 
     const newRecipes = query('SELECT * FROM recipes WHERE id = ?', [result.lastInsertRowid]);
@@ -89,7 +93,7 @@ app.post('/api/recipes', (req, res) => {
 // PUT: Aggiorna una ricetta esistente
 app.put('/api/recipes/:id', (req, res) => {
   try {
-    const { titolo, ingredienti, istruzioni, tempo_preparazione, porzioni, categoria, immagine } = req.body;
+    const { titolo, ingredienti, istruzioni, tempo_preparazione, porzioni, categoria, immagine, calorie, proteine, carboidrati, grassi } = req.body;
     const { id } = req.params;
 
     // Verifica che la ricetta esista
@@ -102,7 +106,7 @@ app.put('/api/recipes/:id', (req, res) => {
 
     run(`
       UPDATE recipes
-      SET titolo = ?, ingredienti = ?, istruzioni = ?, tempo_preparazione = ?, porzioni = ?, categoria = ?, immagine = ?
+      SET titolo = ?, ingredienti = ?, istruzioni = ?, tempo_preparazione = ?, porzioni = ?, categoria = ?, immagine = ?, calorie = ?, proteine = ?, carboidrati = ?, grassi = ?
       WHERE id = ?
     `, [
       titolo || existing.titolo,
@@ -112,6 +116,10 @@ app.put('/api/recipes/:id', (req, res) => {
       porzioni || existing.porzioni,
       categoria || existing.categoria,
       immagine !== undefined ? immagine : existing.immagine,
+      calorie !== undefined ? calorie : existing.calorie,
+      proteine !== undefined ? proteine : existing.proteine,
+      carboidrati !== undefined ? carboidrati : existing.carboidrati,
+      grassi !== undefined ? grassi : existing.grassi,
       id
     ]);
 

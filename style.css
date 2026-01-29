@@ -590,6 +590,51 @@ body {
   background: var(--bg-main);
 }
 
+/* Form Section Title */
+.form-section-title {
+  margin: 1.5rem 0 1rem 0;
+  padding-top: 1rem;
+  border-top: 2px solid var(--border);
+}
+
+.form-section-title h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Nutrition Grid */
+.nutrition-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.nutrition-item {
+  background: var(--bg-main);
+  padding: 1rem;
+  border-radius: var(--radius-sm);
+  text-align: center;
+  border: 2px solid var(--border);
+}
+
+.nutrition-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.25rem;
+}
+
+.nutrition-label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
 /* Toast */
 .toast {
   position: fixed;

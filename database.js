@@ -30,6 +30,10 @@ async function initDatabase() {
       porzioni INTEGER DEFAULT 1,
       categoria TEXT DEFAULT 'Altro',
       immagine TEXT DEFAULT '',
+      calorie INTEGER DEFAULT 0,
+      proteine REAL DEFAULT 0,
+      carboidrati REAL DEFAULT 0,
+      grassi REAL DEFAULT 0,
       data_creazione DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `;
@@ -58,7 +62,11 @@ Pepe nero q.b.`,
         tempo_preparazione: 25,
         porzioni: 4,
         categoria: 'Primi',
-        immagine: 'https://images.unsplash.com/photo-1612874742237-6526221588e3?w=600'
+        immagine: 'https://images.unsplash.com/photo-1612874742237-6526221588e3?w=600',
+        calorie: 650,
+        proteine: 28.5,
+        carboidrati: 72.0,
+        grassi: 25.0
       },
       {
         titolo: 'Tiramisù Classico',
@@ -80,7 +88,11 @@ Cacao in polvere q.b.`,
         tempo_preparazione: 40,
         porzioni: 8,
         categoria: 'Dolci',
-        immagine: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=600'
+        immagine: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=600',
+        calorie: 425,
+        proteine: 8.5,
+        carboidrati: 38.0,
+        grassi: 26.0
       },
       {
         titolo: 'Insalata Caprese',
@@ -98,7 +110,11 @@ Sale e pepe q.b.`,
         tempo_preparazione: 10,
         porzioni: 4,
         categoria: 'Antipasti',
-        immagine: 'https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=600'
+        immagine: 'https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=600',
+        calorie: 280,
+        proteine: 18.0,
+        carboidrati: 8.0,
+        grassi: 20.0
       },
       {
         titolo: 'Risotto ai Funghi Porcini',
@@ -121,14 +137,18 @@ Prezzemolo q.b.`,
         tempo_preparazione: 45,
         porzioni: 4,
         categoria: 'Primi',
-        immagine: 'https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=600'
+        immagine: 'https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=600',
+        calorie: 480,
+        proteine: 12.0,
+        carboidrati: 65.0,
+        grassi: 16.0
       }
     ];
 
     seedRecipes.forEach(recipe => {
       db.run(`
-        INSERT INTO recipes (titolo, ingredienti, istruzioni, tempo_preparazione, porzioni, categoria, immagine)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO recipes (titolo, ingredienti, istruzioni, tempo_preparazione, porzioni, categoria, immagine, calorie, proteine, carboidrati, grassi)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `, [
         recipe.titolo,
         recipe.ingredienti,
@@ -136,7 +156,11 @@ Prezzemolo q.b.`,
         recipe.tempo_preparazione,
         recipe.porzioni,
         recipe.categoria,
-        recipe.immagine
+        recipe.immagine,
+        recipe.calorie,
+        recipe.proteine,
+        recipe.carboidrati,
+        recipe.grassi
       ]);
     });
 

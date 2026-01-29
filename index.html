@@ -130,6 +130,29 @@
           <label for="immagine">URL Immagine</label>
           <input type="url" id="immagine" name="immagine" placeholder="https://esempio.com/immagine.jpg">
         </div>
+        <div class="form-section-title">
+          <h4>Valori Nutrizionali (per porzione)</h4>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="calorie">Calorie (kcal)</label>
+            <input type="number" id="calorie" name="calorie" min="0" placeholder="Es. 450">
+          </div>
+          <div class="form-group">
+            <label for="proteine">Proteine (g)</label>
+            <input type="number" id="proteine" name="proteine" min="0" step="0.1" placeholder="Es. 15.5">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="carboidrati">Carboidrati (g)</label>
+            <input type="number" id="carboidrati" name="carboidrati" min="0" step="0.1" placeholder="Es. 60.0">
+          </div>
+          <div class="form-group">
+            <label for="grassi">Grassi (g)</label>
+            <input type="number" id="grassi" name="grassi" min="0" step="0.1" placeholder="Es. 12.5">
+          </div>
+        </div>
         <div class="form-actions">
           <button type="button" class="btn btn-secondary" id="cancelBtn">Annulla</button>
           <button type="submit" class="btn btn-primary" id="submitBtn">Salva Ricetta</button>
