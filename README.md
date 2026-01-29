@@ -1,34 +1,36 @@
-# 🍝 Ricettario Digitale
+# Ricettario Digitale
 
-Applicazione web per la gestione di ricette di cucina, ora **senza dipendenze di compilazione C++**!
+Applicazione web per gestire le tue ricette di cucina preferite. Il progetto è stato configurato per funzionare senza dipendenze di compilazione C++, quindi l'installazione dovrebbe essere semplice e immediata.
 
-## ✅ Problema Risolto
+## Problema risolto
 
-Ho sostituito `better-sqlite3` (che richiedeva Visual Studio Build Tools su Windows) con `sql.js`, che funziona in JavaScript puro senza bisogno di compilazione.
+Originariamente questo progetto usava `better-sqlite3`, che su Windows richiedeva Visual Studio Build Tools per compilare. L'ho sostituito con `sql.js`, che è scritto completamente in JavaScript e non richiede alcuna compilazione. Questo significa che l'installazione funziona subito senza dover configurare strumenti aggiuntivi.
 
-## 📦 Installazione
+## Come iniziare
 
-### Passo 1: Installa le dipendenze
+### Installazione
+
+Prima di tutto, installa le dipendenze:
 
 ```bash
 npm install
 ```
 
-Questo comando ora **funzionerà senza errori** perché non richiede più strumenti di compilazione C++.
+Questo comando ora dovrebbe completarsi senza problemi, dato che non ci sono più dipendenze native da compilare.
 
-### Passo 2: Avvia il server
+### Avvio del server
+
+Per avviare l'applicazione:
 
 ```bash
 npm start
 ```
 
-### Passo 3: Apri il browser
+Poi apri il browser e vai su http://localhost:3000
 
-Vai su: **http://localhost:3000**
+## Cosa aspettarsi
 
-## 🎯 Cosa Aspettarsi
-
-Quando avvii il server, vedrai:
+Quando avvii il server per la prima volta, vedrai un messaggio simile a questo nel terminale:
 
 ```
 Database inizializzato con ricette di esempio
@@ -37,123 +39,142 @@ Accessibile su http://localhost:3000
 Ambiente: development
 ```
 
-L'applicazione caricherà automaticamente 4 ricette di esempio:
-- ✅ Pasta alla Carbonara
-- ✅ Tiramisù Classico
-- ✅ Insalata Caprese
-- ✅ Risotto ai Funghi Porcini
+L'applicazione viene fornita con 4 ricette di esempio già caricate:
+- Pasta alla Carbonara
+- Tiramisù Classico
+- Insalata Caprese
+- Risotto ai Funghi Porcini
 
-## 📁 Struttura del Progetto
+## Struttura del progetto
 
 ```
 ricettario-digitale/
 ├── server.js          # Server Express (backend)
-├── database.js        # Gestione database SQLite con sql.js
-├── app.js            # Logica frontend JavaScript
-├── index.html        # Interfaccia HTML
-├── style.css         # Stili CSS
-├── package.json      # Dipendenze del progetto
-└── recipes.db        # Database SQLite (creato automaticamente)
+├── database.js        # Gestione database SQLite
+├── app.js            # Logica frontend
+├── index.html        # Interfaccia utente
+├── style.css         # Stili
+├── package.json      # Configurazione progetto
+└── recipes.db        # Database (viene creato automaticamente)
 ```
 
-## 🔧 Modifiche Tecniche Apportate
+## Dettagli tecnici
 
-### Prima (con problemi):
-- **Database**: `better-sqlite3` ❌ (richiede Visual Studio Build Tools)
-- **Errore**: "Could not find any Visual Studio installation to use"
+### Cambiamenti dalla versione precedente
 
-### Dopo (funzionante):
-- **Database**: `sql.js` ✅ (JavaScript puro, nessuna compilazione)
-- **Risultato**: Installazione immediata senza errori
+**Prima:**
+- Database: `better-sqlite3` (richiedeva Visual Studio Build Tools)
+- Errore comune: "Could not find any Visual Studio installation to use"
 
-## ✨ Funzionalità
+**Adesso:**
+- Database: `sql.js` (JavaScript puro, nessuna compilazione necessaria)
+- Risultato: installazione senza errori
 
-- 📖 **Visualizza ricette** con immagini e dettagli
-- 🔍 **Cerca ricette** per titolo, categoria o ingredienti
-- 🏷️ **Filtra per categoria** (Antipasti, Primi, Secondi, Dolci, Altro)
-- ➕ **Aggiungi nuove ricette** con form completo
-- ✏️ **Modifica ricette** esistenti
-- 🗑️ **Elimina ricette** con conferma
-- 💾 **Persistenza dati** automatica su file SQLite
+### Stack tecnologico
 
-## 🐛 Risoluzione Problemi
+- Node.js: versione 14 o superiore
+- Database: SQLite gestito tramite sql.js (in-memory con persistenza su file)
+- Backend: Express.js per le API REST
+- Frontend: Vanilla JavaScript, nessun framework
+- Stile: CSS custom con design moderno
 
-### Il server non parte
+## Funzionalità
+
+L'applicazione permette di:
+
+- Visualizzare ricette con immagini e dettagli completi
+- Cercare ricette per titolo, categoria o ingredienti
+- Filtrare per categoria (Antipasti, Primi, Secondi, Dolci, Altro)
+- Aggiungere nuove ricette tramite un form completo
+- Modificare ricette esistenti
+- Eliminare ricette con conferma
+- Tutti i dati vengono salvati automaticamente nel database SQLite
+
+## API Endpoints
+
+L'applicazione espone le seguenti API REST:
+
+```
+GET    /api/recipes          # Ottieni tutte le ricette (supporta ?search=...)
+GET    /api/recipes/:id      # Ottieni una ricetta specifica
+POST   /api/recipes          # Crea una nuova ricetta
+PUT    /api/recipes/:id      # Aggiorna una ricetta
+DELETE /api/recipes/:id      # Elimina una ricetta
+```
+
+## Risoluzione problemi
+
+### Il server non si avvia
+
+Se la porta 3000 è già occupata, puoi verificarlo con:
+
 ```bash
-# Verifica che la porta 3000 sia libera
 netstat -ano | findstr :3000
+```
 
-# Se occupata, cambia porta:
-# Modifica package.json:
+E poi cambiare porta modificando il package.json:
+
+```json
 "start": "set PORT=3001 && node server.js"
 ```
 
 ### "Cannot find module 'sql.js'"
+
+Prova a reinstallare le dipendenze:
+
 ```bash
-# Reinstalla le dipendenze
 rm -rf node_modules
 npm install
 ```
 
-### Il database non si crea
-```bash
-# Verifica i permessi della cartella
-# Assicurati di avere permessi di scrittura nella directory del progetto
-```
+### Il database non viene creato
 
-### Errori nel browser (Console F12)
-- Controlla che il server sia avviato
-- Verifica che l'URL sia `http://localhost:3000` (non `file://`)
-- Controlla la console per errori JavaScript
-
-## 🚀 Script Disponibili
+Controlla di avere i permessi di scrittura nella directory del progetto. Su sistemi Unix/Mac, puoi verificarlo con:
 
 ```bash
-npm start     # Avvia il server in modalità produzione
-npm run dev   # Avvia il server in modalità sviluppo (uguale a start)
+ls -la
 ```
 
-## 📝 Note Tecniche
+### Errori nel browser
 
-- **Node.js**: Richiede Node.js 14 o superiore
-- **Database**: SQLite gestito tramite sql.js (in-memory con persistenza su file)
-- **Backend**: Express.js per le API REST
-- **Frontend**: Vanilla JavaScript (nessun framework)
-- **Stile**: CSS personalizzato con design moderno
+Se riscontri problemi nel browser:
+- Assicurati che il server sia avviato
+- Verifica di usare `http://localhost:3000` e non un percorso file locale
+- Apri la console del browser (F12) per vedere eventuali errori JavaScript
 
-## 🎨 API Endpoints
+## Script disponibili
 
-```
-GET    /api/recipes          # Ottieni tutte le ricette (opzionale ?search=...)
-GET    /api/recipes/:id      # Ottieni una ricetta specifica
-POST   /api/recipes          # Crea nuova ricetta
-PUT    /api/recipes/:id      # Aggiorna ricetta
-DELETE /api/recipes/:id      # Elimina ricetta
+```bash
+npm start     # Avvia il server
+npm run dev   # Avvia il server (identico a start)
 ```
 
-## 💡 Suggerimenti
+## Suggerimenti
 
-1. **Backup del database**: Fai una copia di `recipes.db` periodicamente
-2. **Immagini**: Usa URL di immagini online (Unsplash, etc.)
-3. **Personalizzazione**: Modifica `style.css` per cambiare colori e stili
+Alcuni consigli per usare al meglio l'applicazione:
 
-## 📸 Screenshots
+1. Fai periodicamente un backup del file `recipes.db` per non perdere i tuoi dati
+2. Per le immagini delle ricette, usa URL di immagini online (ad esempio da Unsplash)
+3. Puoi personalizzare l'aspetto modificando il file `style.css`
 
-L'applicazione mostra:
-- Header con logo, ricerca e pulsante "Aggiungi Ricetta"
-- Filtri per categoria con stile pill
-- Griglia di card per le ricette
-- Modal per aggiungere/modificare ricette
-- Modal per visualizzare i dettagli completi
+## Interfaccia
 
-## 🤝 Supporto
+L'applicazione include:
+- Un header con logo, barra di ricerca e pulsante per aggiungere ricette
+- Filtri per categoria con design moderno
+- Una griglia responsive di card per visualizzare le ricette
+- Un modale per aggiungere o modificare ricette
+- Un modale per visualizzare i dettagli completi di ogni ricetta
 
-Se hai problemi:
-1. Verifica di essere nella cartella corretta (`cd ricettario-digitale`)
-2. Controlla che Node.js sia installato (`node --version`)
-3. Leggi i messaggi di errore nel terminale
-4. Controlla la console del browser (F12)
+## Supporto
+
+Se incontri problemi:
+
+1. Verifica di essere nella directory corretta del progetto
+2. Controlla che Node.js sia installato correttamente (`node --version`)
+3. Leggi attentamente i messaggi di errore nel terminale
+4. Controlla la console del browser (premi F12) per errori JavaScript
 
 ---
 
-**Buon appetito! 🍕🍰🥗**
+Buon appetito!
