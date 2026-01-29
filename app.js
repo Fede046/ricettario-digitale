@@ -1,6 +1,9 @@
 // API Base URL
 const API_URL = '/api/recipes';
 
+// Security PIN
+const SECURITY_PIN = '2004';
+
 // State
 let allRecipes = [];
 let currentCategory = 'tutti';
@@ -172,8 +175,20 @@ function handleFilterClick(btn) {
   renderRecipes();
 }
 
+// Funzione per richiedere il PIN
+function requestPIN(action) {
+  const pin = prompt(`🔒 Inserisci il PIN per ${action}:`);
+  if (pin === null) return false; // Annullato
+  if (pin === SECURITY_PIN) return true;
+  
+  showToast('❌ PIN errato!', 'error');
+  return false;
+}
+
 // Modal handlers
 function openAddModal() {
+  if (!requestPIN('aggiungere una ricetta')) return;
+  
   editingRecipeId = null;
   document.getElementById('modalTitle').textContent = 'Aggiungi Nuova Ricetta';
   document.getElementById('submitBtn').textContent = 'Salva Ricetta';
@@ -308,6 +323,8 @@ async function handleFormSubmit(e) {
 }
 
 async function handleDelete() {
+  if (!requestPIN('eliminare questa ricetta')) return;
+  
   const id = parseInt(document.getElementById('deleteBtn').dataset.id);
   if (!confirm('Sei sicuro di voler eliminare questa ricetta?')) return;
 
@@ -328,6 +345,8 @@ async function handleDelete() {
 }
 
 function handleEdit() {
+  if (!requestPIN('modificare questa ricetta')) return;
+  
   const id = parseInt(document.getElementById('editBtn').dataset.id);
   const recipe = allRecipes.find(r => r.id === id);
   if (!recipe) return;
