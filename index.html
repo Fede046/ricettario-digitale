@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ricettario Digitale</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <div class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/>
+          <path d="M7 2v20"/>
+          <path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>
+        </svg>
+        <h1>Ricettario Digitale</h1>
+      </div>
+      <div class="search-container">
+        <div class="search-box">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.3-4.3"/>
+          </svg>
+          <input type="text" id="searchInput" placeholder="Cerca ricette...">
+        </div>
+      </div>
+      <button class="btn btn-primary" id="openModalBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 5v14"/>
+          <path d="M5 12h14"/>
+        </svg>
+        Aggiungi Ricetta
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Hero Section -->
+    <section class="hero">
+      <h2>Le Tue Ricette Preferite</h2>
+      <p>Scopri, crea e condividi le tue ricette culinarie preferite</p>
+    </section>
+
+    <!-- Filters -->
+    <div class="filters">
+      <button class="filter-btn active" data-category="tutti">Tutti</button>
+      <button class="filter-btn" data-category="Antipasti">Antipasti</button>
+      <button class="filter-btn" data-category="Primi">Primi</button>
+      <button class="filter-btn" data-category="Secondi">Secondi</button>
+      <button class="filter-btn" data-category="Dolci">Dolci</button>
+      <button class="filter-btn" data-category="Altro">Altro</button>
+    </div>
+
+    <!-- Recipe Grid -->
+    <div class="recipes-container">
+      <div class="recipes-grid" id="recipesGrid">
+        <!-- Le ricette verranno caricate qui dinamicamente -->
+      </div>
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>Caricamento ricette...</p>
+      </div>
+      <div class="no-recipes" id="noRecipes" style="display: none;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/>
+          <path d="M7 2v20"/>
+          <path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>
+        </svg>
+        <p>Nessuna ricetta trovata</p>
+        <button class="btn btn-primary" id="firstRecipeBtn">Aggiungi la tua prima ricetta</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal for Adding/Editing Recipes -->
+  <div class="modal-overlay" id="recipeModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modalTitle">Aggiungi Nuova Ricetta</h3>
+        <button class="modal-close" id="closeModalBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"/>
+            <path d="m6 6 12 12"/>
+          </svg>
+        </button>
+      </div>
+      <form id="recipeForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="titolo">Titolo *</label>
+            <input type="text" id="titolo" name="titolo" required placeholder="Es. Pasta alla Carbonara">
+          </div>
+          <div class="form-group">
+            <label for="categoria">Categoria</label>
+            <select id="categoria" name="categoria">
+              <option value="Altro">Altro</option>
+              <option value="Antipasti">Antipasti</option>
+              <option value="Primi">Primi</option>
+              <option value="Secondi">Secondi</option>
+              <option value="Dolci">Dolci</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="tempo_preparazione">Tempo di preparazione (minuti)</label>
+            <input type="number" id="tempo_preparazione" name="tempo_preparazione" min="1" placeholder="Es. 30">
+          </div>
+          <div class="form-group">
+            <label for="porzioni">Porzioni</label>
+            <input type="number" id="porzioni" name="porzioni" min="1" placeholder="Es. 4">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="ingredienti">Ingredienti * (uno per riga)</label>
+          <textarea id="ingredienti" name="ingredienti" rows="6" required placeholder="400g spaghetti&#10;200g guanciale&#10;4 uova&#10;100g pecorino"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="istruzioni">Istruzioni *</label>
+          <textarea id="istruzioni" name="istruzioni" rows="8" required placeholder="1. Cuocere la pasta...&#10;2. Rosolare il guanciale...&#10;3. Mescolare tutto insieme..."></textarea>
+        </div>
+        <div class="form-group">
+          <label for="immagine">URL Immagine</label>
+          <input type="url" id="immagine" name="immagine" placeholder="https://esempio.com/immagine.jpg">
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" id="cancelBtn">Annulla</button>
+          <button type="submit" class="btn btn-primary" id="submitBtn">Salva Ricetta</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal for Recipe Details -->
+  <div class="modal-overlay" id="detailModal">
+    <div class="modal modal-large">
+      <div class="modal-header">
+        <h3 id="detailTitle">Dettagli Ricetta</h3>
+        <button class="modal-close" id="closeDetailBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"/>
+            <path d="m6 6 12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="recipe-detail" id="recipeDetail">
+        <!-- I dettagli verranno inseriti qui dinamicamente -->
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-danger" id="deleteBtn">Elimina</button>
+        <button class="btn btn-secondary" id="editBtn">Modifica</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <span id="toastMessage"></span>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
